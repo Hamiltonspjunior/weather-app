@@ -4,7 +4,8 @@
 }
 
 body {
-  background: var(--primary)
+  background-color: var(--primary);
+  background-image: linear-gradient(to right bottom, #3fc5ff, #2b8fcb, #1a5d96, #083062, #000030);
 }
 
 .container {
@@ -25,6 +26,7 @@ h1 {
 .form-control:focus {
   background-color: var(--secondary);
   box-shadow: 0px 0px 2px 1px #67b2f8;
+  color: #fff;
 }
 
 .form-control::placeholder {
@@ -34,4 +36,12 @@ h1 {
 .card {
   background-color: var(--secondary);
   border: none;
+}
+
+.time-icon {
+  position: relative;
+  top: -50px;
+  width: 100px;
+  margin-bottom: -50px;
+  border-radius: 50%;
 }
