@@ -36,6 +36,7 @@ h1 {
 .card {
   background-color: var(--secondary);
   border: none;
+  margin-bottom: 30px;
 }
 
 .time-icon {
@@ -44,4 +45,7 @@ h1 {
   width: 100px;
   margin-bottom: -50px;
   border-radius: 50%;
+}
+.author_link {
+  text-decoration: underline;
 }
