@@ -7,44 +7,36 @@ const $cityWeather = document.querySelector('[data-js="city-weather"]')
 const $cityTemperature = document.querySelector('[data-js="city-temperature"]')
 
 const showCityCard = () => {
-  if ($cityCard.classList.contains('d-none')) {
+  const isCityCardHidden = $cityCard.classList.contains('d-none')
+
+  if (isCityCardHidden) {
     $cityCard.classList.remove('d-none')
   }
 }
 
-const generateTimeIconImg = (WeatherIcon, WeatherText) => /*html*/`
+const getTimeIconImg = (WeatherIcon, WeatherText) => /*html*/`
   <img src="./src/icons/${WeatherIcon}.svg" alt="${WeatherText}" title="${WeatherText}" >
 `
-const getCityCardData = async inputValue => {
-  const [{ Key, LocalizedName }] = await getCityData(inputValue)
+const getCityCardData = async cityName => {
+  const [{ Key, LocalizedName }] = await getCityData(cityName)
   const [{ IsDayTime, Temperature, WeatherIcon, WeatherText }] = await getWeatherData(Key)
 
-  const timeImageSrc = IsDayTime ? `./src/day.svg` : `./src/night.svg`
-  const timeIconImg = generateTimeIconImg(WeatherIcon, WeatherText)
-
-  return { LocalizedName, timeImageSrc, timeIconImg, Temperature, WeatherText }
+  return { LocalizedName, IsDayTime, Temperature, WeatherIcon, WeatherText }
 }
 
-const insertDataIntoCityCard = (cityCardData) => {
-  const {LocalizedName, timeImageSrc, timeIconImg, Temperature, WeatherText} = cityCardData
+const showCityWeather = async event => {
+  event.preventDefault()
 
-  $timeImage.src = timeImageSrc
-  $timeIcon.innerHTML = timeIconImg
+  const cityName = event.target.city.value
+  const { LocalizedName, IsDayTime, Temperature, WeatherIcon, WeatherText } = await getCityCardData(cityName)
+
+  $timeImage.src = IsDayTime ? './src/day.svg' : './src/night.svg'
+  $timeIcon.innerHTML = getTimeIconImg(WeatherIcon, WeatherText)
   $cityName.innerHTML = LocalizedName
   $cityWeather.innerHTML = WeatherText
   $cityTemperature.innerHTML = Temperature.Metric.Value
-}
-
-const handleSubmit = async event => {
-  event.preventDefault()
-
-  const inputValue = event.target.city.value
-  const cityCardData = await getCityCardData(inputValue)
-
-  insertDataIntoCityCard(cityCardData)
   showCityCard()
-
   $cityForm.reset()
 }
 
-$cityForm.addEventListener('submit', handleSubmit)
+$cityForm.addEventListener('submit', showCityWeather)
