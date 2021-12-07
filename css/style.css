@@ -46,6 +46,25 @@ h1 {
   margin-bottom: -50px;
   border-radius: 50%;
 }
+
 .author_link {
   text-decoration: underline;
 }
+
+.daily-forecasts-container {
+  margin-top: 20px;
+  padding: 20px 0;
+  border-top: 1px solid #ffffff57;
+}
+
+.daily-forecasts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.daily-forecasts-image {
+  width: 60px;
+  height: 60px;
+}
+

@@ -7,6 +7,9 @@ const getCityUrl = cityName =>
 const getWeatherUrl = citykey => 
   `${baseUrl}currentconditions/v1/${citykey}?apikey=${APIKey}&language=pt-br`
 
+const getDailyForecastsUrl = cityKey => 
+  `${baseUrl}forecasts/v1/daily/5day/${cityKey}?apikey=${APIKey}&language=pt-br&metric=true`
+
 const fetchData = async endpoint => {
   try {
     const response = await fetch(endpoint)
@@ -22,4 +25,6 @@ const fetchData = async endpoint => {
 
 const getCityData = cityName => fetchData(getCityUrl(cityName))
 
-const getWeatherData = key => fetchData(getWeatherUrl(key))
+const getWeatherData = cityKey => fetchData(getWeatherUrl(cityKey))
+
+const get5DaysOfDailyForecastsData = cityKey => fetchData(getDailyForecastsUrl(cityKey))
