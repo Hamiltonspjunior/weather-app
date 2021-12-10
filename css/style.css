@@ -3,6 +3,8 @@
   --secondary: #41729F;
 }
 
+html { min-height: 100%; }
+
 body {
   background-color: var(--primary);
   background-image: linear-gradient(to right bottom, #3fc5ff, #2b8fcb, #1a5d96, #083062, #000030);

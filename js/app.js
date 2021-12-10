@@ -6,6 +6,7 @@ const $cityName = document.querySelector('[data-js="city-name"]')
 const $cityWeather = document.querySelector('[data-js="city-weather"]')
 const $cityTemperature = document.querySelector('[data-js="city-temperature"]')
 const $dailyForecastsList = document.querySelector('[data-js="daily-forecasts-list"]')
+const lastCityFetched = localStorage.getItem('lastCityFetched')
 
 const showCityCard = () => {
   const isCityCardHidden = $cityCard.classList.contains('d-none')
@@ -50,11 +51,8 @@ const getCityCardData = async cityName => {
   return { LocalizedName, IsDayTime, Temperature, WeatherIcon, WeatherText, DailyForecasts }
 }
 
-const showCityWeather = async event => {
-  event.preventDefault()
-
-  const cityName = event.target.city.value
-  const { LocalizedName, IsDayTime, Temperature, WeatherIcon, WeatherText, DailyForecasts } = await getCityCardData(cityName)
+const insertDataIntoCityCard = cityCardData => {
+  const { LocalizedName, IsDayTime, Temperature, WeatherIcon, WeatherText, DailyForecasts } = cityCardData
 
   $timeImage.src = IsDayTime ? './src/day.svg' : './src/night.svg'
   $timeIcon.innerHTML = getTimeIconImg(WeatherIcon, WeatherText)
@@ -62,8 +60,32 @@ const showCityWeather = async event => {
   $cityWeather.innerHTML = WeatherText
   $cityTemperature.innerHTML = Temperature.Metric.Value
   $dailyForecastsList.innerHTML = getDailyForecastsHTML(DailyForecasts, IsDayTime)
+
   showCityCard()
+}
+
+const saveCityNameInLocalStorage = cityName => {
+  localStorage.setItem('lastCityFetched', cityName)
+}
+
+const showCityWeather = async event => {
+  event.preventDefault()
+
+  const cityName = event.target.city.value
+  const cityCardData = await getCityCardData(cityName)
+
+  saveCityNameInLocalStorage(cityName)
+  insertDataIntoCityCard(cityCardData)
   $cityForm.reset()
 }
 
+const showLastCityWatherFetched = async () => {
+  if (lastCityFetched) {
+    const cityCardData = await getCityCardData(lastCityFetched)
+    
+    insertDataIntoCityCard(cityCardData)
+  }
+}
+
 $cityForm.addEventListener('submit', showCityWeather)
+showLastCityWatherFetched()
