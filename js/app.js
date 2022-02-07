@@ -41,7 +41,7 @@ getDailyForecastsHTML = (DailyForecasts, IsDayTime) =>
     return acc
   }, '')
 
-const getCityCardData = async cityName => {
+const fetchCityWeatherInfo = async cityName => {
   const [{ Key, LocalizedName }] = await getCityData(cityName)
   const [{ IsDayTime, Temperature, WeatherIcon, WeatherText }] = await getWeatherData(Key)
   const {DailyForecasts} = await get5DaysOfDailyForecastsData(Key)
@@ -72,7 +72,7 @@ const showCityWeather = async event => {
   event.preventDefault()
 
   const cityName = event.target.city.value
-  const cityCardData = await getCityCardData(cityName)
+  const cityCardData = await fetchCityWeatherInfo(cityName)
 
   saveCityNameInLocalStorage(cityName)
   insertDataIntoCityCard(cityCardData)
@@ -81,7 +81,7 @@ const showCityWeather = async event => {
 
 const showLastCityWatherFetched = async () => {
   if (lastCityFetched) {
-    const cityCardData = await getCityCardData(lastCityFetched)
+    const cityCardData = await fetchCityWeatherInfo(lastCityFetched)
     
     insertDataIntoCityCard(cityCardData)
   }

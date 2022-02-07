@@ -24,7 +24,5 @@ const fetchData = async endpoint => {
 }
 
 const getCityData = cityName => fetchData(getCityUrl(cityName))
-
 const getWeatherData = cityKey => fetchData(getWeatherUrl(cityKey))
-
 const get5DaysOfDailyForecastsData = cityKey => fetchData(getDailyForecastsUrl(cityKey))
